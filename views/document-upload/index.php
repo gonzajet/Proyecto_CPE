@@ -1,0 +1,49 @@
+﻿<?php
+
+use yii\helpers\Html;
+use yii\grid\GridView;
+use app\models\Moderw;
+/* @var $this yii\web\View */
+/* @var $searchModel app\models\DocumentUploadSearch */
+/* @var $dataProvider yii\data\ActiveDataProvider */
+
+$this->title = 'Subir Programa';
+$this->params['breadcrumbs'][] = $this->title;
+?>
+<div class="document-upload-index">
+
+    <h1><?= Html::encode($this->title) ?></h1>
+    <p><?= $msg ?></p>
+    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <p><?= Html::a('Subir programa', ['create'], ['class' => 'btn btn-success']) ?></p>
+	<?= GridView::widget([
+        'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
+        'columns' => [
+            ['class' => 'yii\grid\SerialColumn'],
+             [
+              'attribute' => 'programa',
+              'value' =>'descripcionPrograma',
+            ],
+            'nombreUsuario',
+            'descripcionEstado',
+            'archivo',
+            'fecha',
+				[
+					'label' => 'File',
+					'format' => 'raw',
+					'value' => function ($data) {
+						return Html::a('Descargar', 'uploads/'.$data ->archivo);
+					},
+				],
+			[
+              'label' => 'Modo de publicación',
+              'attribute' => 'moderw_id',
+              'value' => function($model){
+                return Moderw::find()->where(['moderw_id'=>$model->moderw_id])->one()->moderw;
+              }
+            ],
+            ['class' => 'yii\grid\ActionColumn2'],
+        ],
+    ]); ?>
+</div>
