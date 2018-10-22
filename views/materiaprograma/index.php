@@ -30,7 +30,6 @@ $this->title = 'Reporte CPE';
             var ciclolectivo = $("#materiaprograma-ciclolectivo").val();
         
             var query = "&instituto="+instituto + "&carrera=" + carrera +"&planestudio="+planestudio +"&ciclolectivo="+ciclolectivo;
-            alert(query);    
             window.location =  '<?= Url::to(['materiaprograma/get-programas-materias']); ?>' + query;
            
         } 
@@ -42,31 +41,31 @@ $this->title = 'Reporte CPE';
        var msg = "";
        var ok = true;
        
-      //  if ($("#materiaprograma-instituto").val() == "")
-      //  {
-      //      msg += "- Instituto<br/>";
-      //      ok = false;
-      //  }
-      //  if ($("#materiaprograma-carrera").val() == "")
-      //  {
-      //      msg += "- Carrera<br/>";
-      //      ok = false;
-      //  }
-      //  if ($("#materiaprograma-planestudio").val() =="")
-      //  {
-      //      msg += "- Plan Estudio<br/>";
-      //      ok = false;
-      //  }
+        if ($("#materiaprograma-instituto").val() == "")
+        {
+            msg += "- Instituto<br/>";
+            ok = false;
+        }
+        if ($("#materiaprograma-carrera").val() == "")
+        {
+            msg += "- Carrera<br/>";
+            ok = false;
+        }
+        if ($("#materiaprograma-planestudio").val() =="")
+        {
+            msg += "- Plan Estudio<br/>";
+            ok = false;
+        }
        
-      //  if ($("#materiaprograma-ciclolectivo").val() == "")
-      //  {
-      // msg += "- Ciclo lectivo<br/>";
-      //      ok = false;
-      //  }
+        if ($("#materiaprograma-ciclolectivo").val() == "")
+        {
+            msg += "- Ciclo lectivo<br/>";
+            ok = false;
+        }
        return [ok,msg];
    }
    
-  window.onload = function(){ 
+  $(document).ready(function(){
     
     //$("#search").attr("disabled",true);
     $('#materiaprograma-instituto').change(function()
@@ -180,7 +179,7 @@ $this->title = 'Reporte CPE';
         }
     });
        
-  };
+  });
   
   
   

@@ -100,124 +100,120 @@ class SiteController extends Controller{
 		$countEstadosEntregadoPorIns = 0;
 
 		if(Yii::$app->user->isGuest) 
-			{
-			$msg='No logoneado...'; 
-
-
-
-			} 
+                {
+                    $msg='No logoneado...'; 
+		} 
 		else 
-			{
-				$msg='Logoneado!';
-			}
+		{
+                    $msg='Logoneado!';
+		}
 
 
 		if (($numUsr==0)||(RoleAccessChecker::actionIsAsignSector('site/indexUserAdmCPE'))) 
-			{
+		{
 
-				$model = new BusquedaPrincipalForm;
+                    $model = new BusquedaPrincipalForm;
 
     
 
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            // validar los datos recibidos en el modelo
+                if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+                    // validar los datos recibidos en el modelo
 
-            // aquí haz algo significativo con el modelo ...
+                    // aquí haz algo significativo con el modelo ...
 
-            return $this->render('entry-confirm', ['model' => $model]);
-        } else {
-            // la página es mostrada inicialmente o hay algún error de validación
-            $totalCount= Yii::$app->db->createCommand('SELECT  instituto.nombre  , carrera.descripcion , planestudio.plan, ano.ano , planmateria.materia_id , programa.descripcion , materia.nombre FROM instituto inner join carrera on instituto.instituto_id = carrera.instituto_id  inner join planestudio on carrera.carrera_id = planestudio.carrera_id  inner join ano on planestudio.ano_id = ano.ano_id  inner join planmateria on planestudio.planestudio_id = planmateria.planestudio_id  inner join programa on planmateria.planmateria_id = programa.planmateria_id  inner join materia on planmateria.materia_id = materia.materia_id ')->queryScalar();
+                    return $this->render('entry-confirm', ['model' => $model]);
+                } else {
+                    // la página es mostrada inicialmente o hay algún error de validación
+                    $totalCount= Yii::$app->db->createCommand('SELECT  instituto.nombre  , carrera.descripcion , planestudio.plan, ano.ano , planmateria.materia_id , programa.descripcion , materia.nombre FROM instituto inner join carrera on instituto.instituto_id = carrera.instituto_id  inner join planestudio on carrera.carrera_id = planestudio.carrera_id  inner join ano on planestudio.ano_id = ano.ano_id  inner join planmateria on planestudio.planestudio_id = planmateria.planestudio_id  inner join programa on planmateria.planmateria_id = programa.planmateria_id  inner join materia on planmateria.materia_id = materia.materia_id ')->queryScalar();
 
-            $sql = 'SELECT  instituto.nombre  , carrera.descripcion , planestudio.plan, ano.ano , planmateria.materia_id , programa.descripcion , materia.nombre FROM instituto inner join carrera on instituto.instituto_id = carrera.instituto_id  inner join planestudio on carrera.carrera_id = planestudio.carrera_id  inner join ano on planestudio.ano_id = ano.ano_id  inner join planmateria on planestudio.planestudio_id = planmateria.planestudio_id  inner join programa on planmateria.planmateria_id = programa.planmateria_id  inner join materia on planmateria.materia_id = materia.materia_id';
+                    $sql = 'SELECT  instituto.nombre  , carrera.descripcion , planestudio.plan, ano.ano , planmateria.materia_id , programa.descripcion , materia.nombre FROM instituto inner join carrera on instituto.instituto_id = carrera.instituto_id  inner join planestudio on carrera.carrera_id = planestudio.carrera_id  inner join ano on planestudio.ano_id = ano.ano_id  inner join planmateria on planestudio.planestudio_id = planmateria.planestudio_id  inner join programa on planmateria.planmateria_id = programa.planmateria_id  inner join materia on planmateria.materia_id = materia.materia_id';
 
-            	$sqlProvider = new SqlDataProvider([
-            		'sql' => $sql,
-            	]);
+                    $sqlProvider = new SqlDataProvider([
+                    'sql' => $sql,
+                    ]);
 
-            return $this->render('entry', ['model' => $model , 'sqlProvider' => $sqlProvider]);
-        }
-				// $estadosFaltantesIngyAgr = Estado::getFaltantes("Instituto de Ingeniería y Agronomía");
-				// $countEstadosFaltantesIngyAgr = count ($estadosFaltantesIngyAgr);
-				// $estadosEntregadosIngyAgr = Estado::getEntregados("Instituto de Ingeniería y Agronomía");
-				// $countEstadosEntregadoIngyAgr = count ($estadosEntregadosIngyAgr);
-				// $estadosFaltantesEIni= Estado::getFaltantesIniciales();
-				// $countEstadosFaltantesEIni  = count ($estadosFaltantesEIni );
-				// $estadosEntregadosEIni = Estado::getEntregadosIniciales();
-				// $countEstadosEntregadoEIni  = count ($estadosEntregadosEIni);
-				// $estadosFaltantesSalud= Estado::getFaltantes("Instituto de Ciencias de la Salud");
-				// $countEstadosFaltantesSalud  = count ($estadosFaltantesSalud );
-				// $estadosEntregadosSalud = Estado::getEntregados("Instituto de Ciencias de la Salud");
-				// $countEstadosEntregadoSalud  = count ($estadosEntregadosSalud);
-				// $estadosFaltantesSocyAdm= Estado::getFaltantes("Instituto de Ciencias Sociales y Administración");
-				// $countEstadosFaltantesSocyAdm = count ($estadosFaltantesSocyAdm );
-				// $estadosEntregadosSocyAdm = Estado::getEntregados("Instituto de Ciencias Sociales y Administración");
-				// $countEstadosEntregadoSocyAdm  = count ($estadosEntregadosSocyAdm);
+                    return $this->render('entry', ['model' => $model , 'sqlProvider' => $sqlProvider]);
+                }
+                // $estadosFaltantesIngyAgr = Estado::getFaltantes("Instituto de Ingeniería y Agronomía");
+                // $countEstadosFaltantesIngyAgr = count ($estadosFaltantesIngyAgr);
+                // $estadosEntregadosIngyAgr = Estado::getEntregados("Instituto de Ingeniería y Agronomía");
+                // $countEstadosEntregadoIngyAgr = count ($estadosEntregadosIngyAgr);
+                // $estadosFaltantesEIni= Estado::getFaltantesIniciales();
+                // $countEstadosFaltantesEIni  = count ($estadosFaltantesEIni );
+                // $estadosEntregadosEIni = Estado::getEntregadosIniciales();
+                // $countEstadosEntregadoEIni  = count ($estadosEntregadosEIni);
+                // $estadosFaltantesSalud= Estado::getFaltantes("Instituto de Ciencias de la Salud");
+                // $countEstadosFaltantesSalud  = count ($estadosFaltantesSalud );
+                // $estadosEntregadosSalud = Estado::getEntregados("Instituto de Ciencias de la Salud");
+                // $countEstadosEntregadoSalud  = count ($estadosEntregadosSalud);
+                // $estadosFaltantesSocyAdm= Estado::getFaltantes("Instituto de Ciencias Sociales y Administración");
+                // $countEstadosFaltantesSocyAdm = count ($estadosFaltantesSocyAdm );
+                // $estadosEntregadosSocyAdm = Estado::getEntregados("Instituto de Ciencias Sociales y Administración");
+                // $countEstadosEntregadoSocyAdm  = count ($estadosEntregadosSocyAdm);
 
-				// return $this->render
-				// ('indexUserAdmCPE',
-				// 	[
-				// 	'countFaltantesIngyAgr' => $countEstadosFaltantesIngyAgr,
-				// 	'countEntregadosIngyAgr' => $countEstadosEntregadoIngyAgr,
-				// 	'countFaltantesEIni' => $countEstadosFaltantesEIni,
-				// 	'countEntregadosEIni' => $countEstadosEntregadoEIni,
-				// 	'countFaltantesSalud' => $countEstadosFaltantesSalud,
-				// 	'countEntregadosSalud' => $countEstadosEntregadoSalud,
-				// 	'countFaltantesSocyAdm' => $countEstadosFaltantesSocyAdm,
-				// 	'countEntregadosSocyAdm' => $countEstadosEntregadoSocyAdm
-				// 	]
-				// );
-			}
+                // return $this->render
+                // ('indexUserAdmCPE',
+                // 	[
+                // 	'countFaltantesIngyAgr' => $countEstadosFaltantesIngyAgr,
+                // 	'countEntregadosIngyAgr' => $countEstadosEntregadoIngyAgr,
+                // 	'countFaltantesEIni' => $countEstadosFaltantesEIni,
+                // 	'countEntregadosEIni' => $countEstadosEntregadoEIni,
+                // 	'countFaltantesSalud' => $countEstadosFaltantesSalud,
+                // 	'countEntregadosSalud' => $countEstadosEntregadoSalud,
+                // 	'countFaltantesSocyAdm' => $countEstadosFaltantesSocyAdm,
+                // 	'countEntregadosSocyAdm' => $countEstadosEntregadoSocyAdm
+                // 	]
+                // );
+		}
 		
 		else if (Yii::$app->user->identity != null) 
-			{
-			
-			$instituto = Yii::$app->user->identity->getSector()->one()->descripcion;
-			$carrera_id = Yii::$app->user->identity->getUsuariocarreras()->one();
-			if ($carrera_id)
-				{
-					$carreraid = $carrera_id->carrera_id;
-					$carrera = Carrera::find()->where("carrera_id=:carrera_id", [":carrera_id" => $carreraid])->one()->descripcion;
-					$instituto_id = Carrera::find()->where("carrera_id=:carrera_id", [":carrera_id" => $carreraid])->one()->instituto_id;
-					$instituto = Instituto::find()->where("instituto_id=:instituto_id", [":instituto_id" => $instituto_id])->one()->nombre;
-					$estadosFaltantesPorIns = Estado::getFaltantesPorInst($instituto,$carrera);
-					$countEstadosFaltantesPorIns = count ($estadosFaltantesPorIns);
-					$estadosEntregadosPorIns = Estado::getEntregadosPorInst($instituto,$carrera);
-					$countEstadosEntregadoPorIns = count ($estadosEntregadosPorIns);	
-				}
-			else
-				{
-					$estadosFaltantesPorIns = Estado::getFaltantesIniciales();
-					$countEstadosFaltantesPorIns = count ($estadosFaltantesPorIns);
-					$estadosEntregadosPorIns = Estado::getEntregadosIniciales();
-					$countEstadosEntregadoPorIns = count ($estadosEntregadosPorIns);	
-				}
-		   	
-		   	return $this->render
-		   		(
-		   			'index',
-		   			[
-		   				'instituto'=>$instituto,
-			   			'carrera'=>$carrera,
-				   		'countEstadosFaltantesPorIns' => $countEstadosFaltantesPorIns,
-				   		'countEstadosEntregadoPorIns' => $countEstadosEntregadoPorIns
-				   	]
-				); 
-			}
+                {
+                    
+                    $instituto = Yii::$app->user->identity->getSector()->one()->descripcion;
+                    $carrera_id = Yii::$app->user->identity->getUsuariocarreras()->one();
+                    if ($carrera_id)
+                            {
+                                    $carreraid = $carrera_id->carrera_id;
+                                    $carrera = Carrera::find()->where("carrera_id=:carrera_id", [":carrera_id" => $carreraid])->one()->descripcion;
+                                    $instituto_id = Carrera::find()->where("carrera_id=:carrera_id", [":carrera_id" => $carreraid])->one()->instituto_id;
+                                    $instituto = Instituto::find()->where("instituto_id=:instituto_id", [":instituto_id" => $instituto_id])->one()->nombre;
+                                    $estadosFaltantesPorIns = Estado::getFaltantesPorInst($instituto,$carrera);
+                                    $countEstadosFaltantesPorIns = count ($estadosFaltantesPorIns);
+                                    $estadosEntregadosPorIns = Estado::getEntregadosPorInst($instituto,$carrera);
+                                    $countEstadosEntregadoPorIns = count ($estadosEntregadosPorIns);	
+                            }
+                    else
+                            {
+                                    $estadosFaltantesPorIns = Estado::getFaltantesIniciales();
+                                    $countEstadosFaltantesPorIns = count ($estadosFaltantesPorIns);
+                                    $estadosEntregadosPorIns = Estado::getEntregadosIniciales();
+                                    $countEstadosEntregadoPorIns = count ($estadosEntregadosPorIns);	
+                            }
 
+                    return $this->render
+                            (
+                                    'index',
+                                    [
+                                            'instituto'=>$instituto,
+                                            'carrera'=>$carrera,
+                                            'countEstadosFaltantesPorIns' => $countEstadosFaltantesPorIns,
+                                            'countEstadosEntregadoPorIns' => $countEstadosEntregadoPorIns
+                                    ]
+                            ); 
+                }
 		else
-			{
-			
-				return $this->render
-					('index',
-						[
-							'carrera'=>$carrera,
-							'instituto'=>$instituto,	
-							'countEstadosFaltantesPorIns' => $countEstadosFaltantesPorIns,
-					   		'countEstadosEntregadoPorIns' => $countEstadosEntregadoPorIns
-					   	]
-					);
-			}
+		{
+
+                    return $this->render
+                            ('index',
+                                    [
+                                            'carrera'=>$carrera,
+                                            'instituto'=>$instituto,	
+                                            'countEstadosFaltantesPorIns' => $countEstadosFaltantesPorIns,
+                                            'countEstadosEntregadoPorIns' => $countEstadosEntregadoPorIns
+                                    ]
+                            );
+		}
 		
 		} catch (\yii\db\Exception $e) {return $this->redirect(['error/db-grant-error',]);}
    }

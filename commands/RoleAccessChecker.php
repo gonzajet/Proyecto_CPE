@@ -14,6 +14,7 @@ use app\models\Actionrole;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\StringHelper;
+use app\models\Usuario;
 
 
 /**
@@ -72,15 +73,17 @@ class RoleAccessChecker extends Controller{
 	 * Devuelve el contenido  del widget nav en forma dinamica segun la lista de permisos que el sector tenga cargada 
 	 **/
 	public static function navWidgetContent(){
-		return [
+		$numUsr=Usuario::find()->count();
+            
+                return [
 			'options' => ['class' => 'sidebar-nav navbar-left'],
 			'encodeLabels' => false,
 			'items' => [
-				(self::actionIsAsignSector('roladmin')) ? (['label' => 'ROL ADMINISTRADOR', ]):(''),
+                                (self::actionIsAsignSector('roladmin')) ? (['label' => 'ROL ADMINISTRADOR', ]):(''),
 				(self::actionIsAsignSector('rolinstituto')) ? (['label' => 'ROL INSTITUTO', ]):(''),
 				(self::actionIsAsignSector('rolprensa')) ? (['label' => 'ROL PRENSA', ]):(''),
 				['label' => '<span class="glyphicon glyphicon-home"></span> Inicio', 'url' => ['/site/index']],
-				// ['label' => '<span class="glyphicon glyphicon-user"></span> Crear usuarios', 'url' => ['/site/register']],
+                                ($numUsr==0 ? ['label' => '<span class="glyphicon glyphicon-user"></span> Crear usuarios', 'url' => ['/site/register']] : ('')),
 				(self::actionIsAsignSector('roladmin')) ? (['label' => '<span class="glyphicon glyphicon-user"></span> Crear usuarios', 'url' => ['/site/register']]):(''),
 				(self::actionIsAsignSector('roladmin')) ? (['label' => '<span class="glyphicon glyphicon-floppy-open"></span> Subir Programa', 'url' => ['/document-upload/create'] ]):(''),
 				(self::actionIsAsignSector('rolinstituto')) ? (['label' => '<span class="glyphicon glyphicon-floppy-open"></span> Subir Programa', 'url' => ['/document-upload/create'] ]):(''),
@@ -89,7 +92,7 @@ class RoleAccessChecker extends Controller{
 				(self::actionIsAsignSector('materia/index')) ? (['label' => '<span class="glyphicon glyphicon-search"></span> Consultar Estado de Programas', 'url' => ['/materiaprograma/index']]):(''),
 				(self::actionIsAsignSector('roladmin')) ? (
 				   ['label' => '<span class="glyphicon glyphicon-cog"></span> Herramientas','items'=> [
-					   (self::actionIsAsignSector('site/register')) ? (['label' => 'Registra nuevo usuario', 'url' => ['/site/register']]):(''),
+					   //(self::actionIsAsignSector('site/register')) ? (['label' => 'Registra nuevo usuario', 'url' => ['/site/register']]):(''),
 					   (self::actionIsAsignSector('document-upload/index')) ? (['label' => 'Documentos', 'url' => ['/document-upload/index']]):(''),
 					   (self::actionIsAsignSector('estado/index')) ? (['label' => 'Estados de documentos', 'url' => ['/estado/index']]):(''),
 					   (self::actionIsAsignSector('instituto/index')) ? (['label' => 'Intitutos', 'url' => ['/instituto/index']]):(''),
@@ -109,7 +112,7 @@ class RoleAccessChecker extends Controller{
 
 				(self::actionIsAsignSector('rolinstituto')) ? (
 				   ['label' => '<span class="glyphicon glyphicon-cog"></span> Herramientas','items'=> [
-					   (self::actionIsAsignSector('site/register')) ? (['label' => 'Registra nuevo usuario', 'url' => ['/site/register']]):(''),
+					   //(self::actionIsAsignSector('site/register')) ? (['label' => 'Registra nuevo usuario', 'url' => ['/site/register']]):(''),
 					   (self::actionIsAsignSector('document-upload/index')) ? (['label' => 'Documentos', 'url' => ['/document-upload/index']]):(''),
 					   (self::actionIsAsignSector('estado/index')) ? (['label' => 'Estados de documentos', 'url' => ['/estado/index']]):(''),
 					   (self::actionIsAsignSector('instituto/index')) ? (['label' => 'Intitutos', 'url' => ['/instituto/index']]):(''),
