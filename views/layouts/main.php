@@ -25,16 +25,8 @@ AppAsset::register($this);
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?= Html::csrfMetaTags() ?>
-
- 
- <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-    <!-- Latest compiled and minified JavaScript -->
-   <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
- 
+    
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
     <div class="page-header" style='margin:20px;text-align:center;'>
         <strong><h3>SISTEMA DE GESTIÓN DE PROGRAMAS DE MATERIAS</h3></strong>        
     </div>
@@ -50,10 +42,10 @@ AppAsset::register($this);
 <div class="wrap">
     <div class="row">
         
-        <div class="col-md-2 panel panel-default">
-            <div class="panel-body">
-                <?php echo Nav::widget(RoleAccessChecker::navWidgetContent()); ?>
-            </div>
+        <div class="col-md-2">
+            
+               <?php echo Nav::widget(RoleAccessChecker::navWidgetContent()); ?>
+            
         </div>
 
         <div class="col-md-1">
