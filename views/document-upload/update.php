@@ -17,6 +17,7 @@ $this->params['breadcrumbs'][] = 'Update';*/
 			'subModelEstado' => $subModelEstado,
 			'subModelPrograma' => $subModelPrograma,
 			'subModelModerw' => $subModelModerw,
+                        'historialModel' => $historialModel,
  		]) ?>
 
 	</div>

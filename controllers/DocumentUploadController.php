@@ -16,7 +16,9 @@ use yii\filters\AccessControl;
 use yii\web\UploadedFile;
 use app\commands\RoleAccessChecker;
 use app\commands\RegisterModeChecker;
+use app\commands\Log;
 use app\commands\Stadistics;
+use \app\models\Historial;
 /**
  * DocumentUploadController implements the CRUD actions for DocumentUpload model.
  */
@@ -148,19 +150,33 @@ class DocumentUploadController extends Controller
 				$subModelEstado = new Estado();
 				$subModelPrograma = new Programa();
 				$subModelModerw = new Moderw();
+                                $historialModel = new Historial();
+                                $usuario = Yii::$app->user->identity->usuario_id;
 				if ($model->load(Yii::$app->request->post())){
-						$model->usuario_id=Yii::$app->user->identity->usuario_id;
+						$model->usuario_id=$usuario;
 						$model->fecha=date('Y-m-d');
-					if ($model->save()) return $this->redirect(['index', 'id' => $model->archivoprograma_id]);
+                                                $historialModel->comentario="";
+                                                $historialModel->usuario_id = $usuario;
+                                                $historialModel->archivoprograma_id = 9;
+                                                $historialModel->archivo = "445";
+                                                
+					if ($model->save() && $historialModel->save()) return $this->redirect(['index', 'id' => $model->archivoprograma_id]);
 					} else return $this->render('update', [
 							'model' => $model,
 							'subModelEstado' => $subModelEstado,
 							'subModelPrograma' => $subModelPrograma,
-							'subModelModerw' => $subModelModerw,]);
-			} catch (\yii\db\Exception $e) {return $this->redirect(['error/db-grant-error',]);}
+							'subModelModerw' => $subModelModerw,
+                                                        'historialModel' => $historialModel,
+                                                        ]);
+			} catch (\yii\db\Exception $e) { 
+                            
+                            Log::file_force_contents("log.txt", $e->getMessage());
+                            return $this->redirect(['error/db-grant-error',]);
+                        }
 	
     }
-
+    
+    
     /**
      * Deletes an existing DocumentUpload model.
      * If deletion is successful, the browser will be redirected to the 'index' page.

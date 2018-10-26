@@ -19,7 +19,9 @@ use yii\helpers\ArrayHelper;
 
     <?= $form->field($model, "programa_id")->dropDownList(
             ArrayHelper::map($subModelPrograma->find()->all(), 'programa_id', 'descripcion')) ?>
-
+    
+    <?= $form->field($historialModel, 'comentario')->textarea(['rows' => '6']) ?>
+        
     <?= $form->field($model, 'moderw_id')->dropDownList(ArrayHelper::map($subModelModerw->find()->all(),'moderw_id','moderw'))?>
 
 

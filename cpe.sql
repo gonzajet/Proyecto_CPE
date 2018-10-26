@@ -127,6 +127,36 @@
 		instituto_id integer REFERENCES instituto,
 		materia_id  integer REFERENCES materia
 	);
+	
+	-- Table: public.historial
+
+	-- DROP TABLE public.historial;
+
+	CREATE TABLE public.historial
+	(
+		historial_id integer NOT NULL DEFAULT nextval('historial_historial_id_seq'::regclass),
+		usuario_id integer,
+		archivoprograma_id integer,
+		archivo character varying(100) COLLATE pg_catalog."default" NOT NULL,
+		comentario character varying(255) COLLATE pg_catalog."default",
+		CONSTRAINT historial_pkey PRIMARY KEY (historial_id),
+		CONSTRAINT historial_archivoprograma_id_fkey FOREIGN KEY (archivoprograma_id)
+			REFERENCES public.archivoprograma (archivoprograma_id) MATCH SIMPLE
+			ON UPDATE NO ACTION
+			ON DELETE NO ACTION,
+		CONSTRAINT historial_usuario_id_fkey FOREIGN KEY (usuario_id)
+			REFERENCES public.usuario (usuario_id) MATCH SIMPLE
+			ON UPDATE NO ACTION
+			ON DELETE NO ACTION
+	)
+	WITH (
+		OIDS = FALSE
+	)
+	TABLESPACE pg_default;
+
+	ALTER TABLE public.historial
+		OWNER to postgres;
+	
 
 	---
 	--FUNCION TRIGGER. Inserta los id de carrera y ano (de la tabla planes) en la tabla planestudio,  

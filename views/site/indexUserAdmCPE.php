@@ -10,7 +10,7 @@ $this->title = 'CPE UNAJ Application';
 <head>
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/asProgress.css">
-<head>
+</head>
 <div class="site-index">
 
 <!--

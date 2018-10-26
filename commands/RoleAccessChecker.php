@@ -87,9 +87,7 @@ class RoleAccessChecker extends Controller{
 				(self::actionIsAsignSector('roladmin')) ? (['label' => '<span class="glyphicon glyphicon-user"></span> Crear usuarios', 'url' => ['/site/register']]):(''),
 				(self::actionIsAsignSector('roladmin')) ? (['label' => '<span class="glyphicon glyphicon-floppy-open"></span> Subir Programa', 'url' => ['/document-upload/create'] ]):(''),
 				(self::actionIsAsignSector('rolinstituto')) ? (['label' => '<span class="glyphicon glyphicon-floppy-open"></span> Subir Programa', 'url' => ['/document-upload/create'] ]):(''),
-
-
-				(self::actionIsAsignSector('materia/index')) ? (['label' => '<span class="glyphicon glyphicon-search"></span> Consultar Estado de Programas', 'url' => ['/materiaprograma/index']]):(''),
+				(!(Yii::$app->user->isGuest) ? ['label' => '<span class="glyphicon glyphicon-search"></span> Consultar Estado de Programas', 'url' => ['/materiaprograma/index']]:('')),
 				(self::actionIsAsignSector('roladmin')) ? (
 				   ['label' => '<span class="glyphicon glyphicon-cog"></span> Herramientas','items'=> [
 					   //(self::actionIsAsignSector('site/register')) ? (['label' => 'Registra nuevo usuario', 'url' => ['/site/register']]):(''),
