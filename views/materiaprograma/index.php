@@ -226,35 +226,40 @@ $this->title = 'Reporte CPE';
         'showOnEmpty'=>true,
         'columns' => [
            ['class' => 'yii\grid\SerialColumn'],
-            'plan',
+            'anoidmateria',
             'nombre',
             'fecha',
             'descripcion',
-              [
+            [
+            'header' => 'Historial',
             'class' => 'yii\grid\ActionColumn',
             'template' => ' {myButton}',  // the default buttons + your custom button
             'buttons' => [
-                'myButton' => function($url, $model, $key) {     // render your custom button
-                    // return Html::a('site/index');
-                    return Html::a(
+                'myButton' => function($url, $model, $key ) {     // render your custom button
 
-                            '<i class="glyphicon glyphicon-download-alt">'.Serialize($model).'</i>',
 
-                            Url::to(['document-upload/index']),
+                    return Html::a('<i class="glyphicon glyphicon-search"></i>', ['document-upload/historial', 'id' => $model["archivoprograma_id"]], ['class'=>'']) ;
 
-                            [
+                    // Url::toRoute(['document-upload/update', 'id' => $model["archivoprograma_id"]]);
+                    // return Html::a(
 
-                                'id'=>'grid-custom-button',
+                    //         '<i class="glyphicon glyphicon-download-alt">'.$model["archivoprograma_id"].'</i>',
 
-                                'data-pjax'=>true,
+                    //         Url::to(['document-upload/update']),
 
-                                'action'=>Url::to(['document-upload/index']),
+                    //         [
 
-                                'class'=>'button btn btn-default',
+                    //             'id'=>$model["archivoprograma_id"],
 
-                            ]
+                    //             'data-pjax'=>true,
 
-                        );
+                    //             'action'=>Url::toRoute(['document-upload/update', 'id' => $model["archivoprograma_id"]]),
+
+                    //             'class'=>'button btn btn-default',
+
+                    //         ]
+
+                    //     );
                 }
             ]
         ],

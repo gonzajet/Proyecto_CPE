@@ -37,7 +37,7 @@ class MateriaProgramaSearch extends  Model
             
         $instituto = Yii::$app->user->identity->getID();
         $query1 = "
-                SELECT  planestudio.plan , materia.nombre , archivoprograma.fecha , estado.descripcion , archivoprograma.archivo
+                SELECT  planestudio.plan , materia.nombre , ano.ano as anoidmateria , archivoprograma.fecha , estado.descripcion   , archivoprograma.archivo , archivoprograma.archivoprograma_id
 
                 FROM instituto 
                     inner join carrera on instituto.instituto_id = carrera.instituto_id 
@@ -119,7 +119,7 @@ class MateriaProgramaSearch extends  Model
         // }
         if ($carreraId != NULL && $ciclolectivoId == NULL) {
              $query1= "
-                SELECT  planestudio.plan , materia.nombre , archivoprograma.fecha , estado.descripcion  , archivoprograma.archivo
+                SELECT  planestudio.plan , materia.nombre , ano.ano as anoidmateria ,  archivoprograma.fecha , estado.descripcion  , archivoprograma.archivo , archivoprograma.archivoprograma_id
  
                 FROM instituto 
                     inner join carrera on instituto.instituto_id = carrera.instituto_id 
@@ -147,7 +147,7 @@ class MateriaProgramaSearch extends  Model
         
 
         $query1= "
-            SELECT  planestudio.plan , materia.nombre , archivoprograma.fecha , estado.descripcion  , archivoprograma.archivo
+            SELECT  planestudio.plan , materia.nombre , ano.ano as anoidmateria , archivoprograma.fecha , estado.descripcion   , archivoprograma.archivo , archivoprograma.archivoprograma_id
 
             FROM instituto 
                 inner join carrera on instituto.instituto_id = carrera.instituto_id 

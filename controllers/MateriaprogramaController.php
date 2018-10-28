@@ -77,9 +77,7 @@ class MateriaprogramaController extends Controller
                                 ->joinWith('instituto')
                                 ->where(['instituto.instituto_id' => $id_instituto])
                                 ->all();
-                    //$instituto = Instituto::find()->where('instituto_id ='.$id_instituto)->one(); // me traigo el instituto
-                    //yii\helpers\VarDumper::dump($instituto, 10, true);
-                    //$myJSON = json_encode($carreras);
+              
                     return $carrera;
             }
 
