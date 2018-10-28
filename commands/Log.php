@@ -8,6 +8,7 @@
 
 namespace app\commands;
 use yii\console\Controller;
+use \DateTime;
 
 /**
  * Description of Log
@@ -25,7 +26,15 @@ class Log extends Controller{
         $dir = '';
         foreach($parts as $part)
             if(!is_dir($dir .= "/$part")) mkdir($dir);
-        file_put_contents("$dir/$file", $contents. "\r\n", FILE_APPEND);
+        file_put_contents("$dir/$file", self::getDatetimeNow().": ". $contents. "\r\n", FILE_APPEND);
+    }
+    
+    public static function getDatetimeNow() {
+        $tz_object = new \DateTimeZone('America/Araguaina');
+
+        $datetime = new DateTime();
+        $datetime->setTimezone($tz_object);
+        return $datetime->format('Y\-m\-d\ h:i:s');
     }
     
 }

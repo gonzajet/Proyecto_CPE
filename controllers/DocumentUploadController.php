@@ -152,13 +152,16 @@ class DocumentUploadController extends Controller
 				$subModelModerw = new Moderw();
                                 $historialModel = new Historial();
                                 $usuario = Yii::$app->user->identity->usuario_id;
-				if ($model->load(Yii::$app->request->post())){
+                                
+                                
+				if ($model->load(Yii::$app->request->post()) && $historialModel->load(Yii::$app->request->post()) ){
 						$model->usuario_id=$usuario;
 						$model->fecha=date('Y-m-d');
-                                                $historialModel->comentario="";
                                                 $historialModel->usuario_id = $usuario;
-                                                $historialModel->archivoprograma_id = 9;
-                                                $historialModel->archivo = "445";
+                                                $historialModel->programa_id = $model->programa_id;
+                                                $historialModel->archivoprograma_id = $model->archivoprograma_id;
+                                                $historialModel->archivo = $model->archivo;
+                                                
                                                 
 					if ($model->save() && $historialModel->save()) return $this->redirect(['index', 'id' => $model->archivoprograma_id]);
 					} else return $this->render('update', [

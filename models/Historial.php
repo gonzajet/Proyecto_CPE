@@ -8,19 +8,13 @@ use app\commands\RegisterModeChecker;
 /*
 
  * @property integer $usuario_id
+ * @property integer $programa_id
  * @property integer $archivoprograma_id
  * @property integer $archivo
  * @property integer $comentario
  *  */
 class Historial extends \yii\db\ActiveRecord
 {
-    /*
-    public $usuario_id;
-    public $archivoprograma_id;
-    public $archivo;
-    public $comentario;
-    */
-    
      /**
      * @inheritdoc
      */
@@ -37,8 +31,9 @@ class Historial extends \yii\db\ActiveRecord
     {
         return [
             [['usuario_id'], 'integer'],
+            [['programa_id'], 'integer'],
             [['archivoprograma_id'], 'integer'],
-            [['archivo'], 'string', 'max' => 100],
+            [['archivo'], 'string', 'max' => 255],
             [['comentario'], 'string', 'max' => 255],
         ];
     }
@@ -51,6 +46,7 @@ class Historial extends \yii\db\ActiveRecord
         return [
             'historial_id' => 'Historial',
             'usuario_id' => 'Usuario',
+            'programa_id' => 'Programa',
             'archivoprograma_id' => 'ArchivoPrograma',
             'archivo' => 'Archivo',
             'cometario' => 'Comentario',
