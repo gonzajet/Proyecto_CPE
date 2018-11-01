@@ -21,6 +21,8 @@ use yii\helpers\ArrayHelper;
             ArrayHelper::map($subModelPrograma->find()->all(), 'programa_id', 'descripcion')) ?>
     
     <?= $form->field($historialModel, 'comentario')->textarea(['rows' => '6']) ?>
+    
+    <?= $form->field($historialModel, 'archivo')->fileInput( ['accept' => 'upload/*'])?>
         
     <?= $form->field($model, 'moderw_id')->dropDownList(ArrayHelper::map($subModelModerw->find()->all(),'moderw_id','moderw'))?>
 

@@ -77,7 +77,11 @@ class DocumentUploadController extends Controller
 					'dataProvider' => $dataProvider,
 					'msg'=>$msg,
 				]);
-			} catch (\yii\db\Exception $e) {return $this->redirect(['error/db-grant-error',]);}
+			} catch (\yii\db\Exception $e) {
+                             Log::file_force_contents("log.txt", $e->getMessage());
+                            return $this->redirect(['error/db-grant-error',]);
+                            
+                        }
 
     }
 
@@ -110,7 +114,11 @@ class DocumentUploadController extends Controller
 				return $this->render('view', [
 					'model' => $this->findModel($id),
 				]);
-			} catch (\yii\db\Exception $e) {return $this->redirect(['error/db-grant-error',]);}
+			} catch (\yii\db\Exception $e) {
+                             Log::file_force_contents("log.txt", $e->getMessage());
+                            return $this->redirect(['error/db-grant-error',]);
+                            
+                        }
 	
     }
 
@@ -141,7 +149,12 @@ class DocumentUploadController extends Controller
 						'subModelEstado' => $subModelEstado,
 						'subModelPrograma' => $subModelPrograma,
 						'subModelModerw' => $subModelModerw,]);
-			} catch (\yii\db\Exception $e) {return $this->redirect(['error/db-grant-error',]);}
+			} catch (\yii\db\Exception $e) 
+                        {
+                             Log::file_force_contents("log.txt", $e->getMessage());
+                            return $this->redirect(['error/db-grant-error',]);
+                            
+                        }
 	
 	}
 	
@@ -161,18 +174,26 @@ class DocumentUploadController extends Controller
                                 $historialModel = new Historial();
                                 $usuario = Yii::$app->user->identity->usuario_id;
                                 
-                                
 				if ($model->load(Yii::$app->request->post()) && $historialModel->load(Yii::$app->request->post()) ){
-						$model->usuario_id=$usuario;
-						$model->fecha=date('Y-m-d');
-                                                $historialModel->usuario_id = $usuario;
-                                                $historialModel->programa_id = $model->programa_id;
-                                                $historialModel->archivoprograma_id = $model->archivoprograma_id;
-                                                $historialModel->archivo = $model->archivo;
-                                                
-                                                
-					if ($model->save() && $historialModel->save()) return $this->redirect(['index', 'id' => $model->archivoprograma_id]);
-					} else return $this->render('update', [
+                                    $model->usuario_id=$usuario;
+                                    $model->fecha=date('Y-m-d');
+
+                                    $historialModel->usuario_id = $usuario;
+                                    $historialModel->programa_id = $model->programa_id;
+                                    $historialModel->archivoprograma_id = $model->archivoprograma_id;
+                                    $historialModel->archivo= UploadedFile::getInstance($historialModel,'archivo');
+                                    if ($historialModel->archivo != '')
+                                    {
+                                        $historialModel->upload();
+                                        $new=RegisterModeChecker::formatDocument($historialModel);
+                                        $historialModel->archivo=$new;
+                                        $model->archivo=$new;
+                                    }
+                                    $historialModel->save();
+                                    
+                                    if ($model->save()) return $this->redirect(['index', 'id' => $model->archivoprograma_id]);
+				} 
+                                else return $this->render('update', [
 							'model' => $model,
 							'subModelEstado' => $subModelEstado,
 							'subModelPrograma' => $subModelPrograma,
@@ -199,7 +220,12 @@ class DocumentUploadController extends Controller
 			try{
 				$this->findModel($id)->delete();
 				return $this->redirect(['index']);
-			} catch (\yii\db\Exception $e) {return $this->redirect(['error/db-grant-error',]);}
+			} catch (\yii\db\Exception $e) 
+                        {
+                             Log::file_force_contents("log.txt", $e->getMessage());
+                            return $this->redirect(['error/db-grant-error',]);
+                            
+                        }
 	
     }
     

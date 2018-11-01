@@ -13,7 +13,7 @@ use yii\data\SqlDataProvider;
  * @property integer $usuario_id
  * @property integer $programa_id
  * @property integer $archivoprograma_id
- * @property integer $archivo
+ * @property string $archivo
  * @property integer $comentario
  *  */
 class Historial extends \yii\db\ActiveRecord
@@ -36,7 +36,7 @@ class Historial extends \yii\db\ActiveRecord
             [['usuario_id'], 'integer'],
             [['programa_id'], 'integer'],
             [['archivoprograma_id'], 'integer'],
-            [['archivo'], 'string', 'max' => 255],
+            [['archivo'], 'file','maxSize' => 2*1024*1024,'tooBig' => 'Límite de 2MB..',],
             [['comentario'], 'string', 'max' => 255],
         ];
     }
@@ -57,10 +57,18 @@ class Historial extends \yii\db\ActiveRecord
     }
     
     
+   public function upload() 
+   {
+      if ($this->validate()) {
+          $this->archivo->saveAs('uploads/' . $this->archivo->baseName . '.' . $this->archivo->extension);
+          return true;
+      } else return false;
+   }    
+    
    public function searchPorProgramaId($programaId)
    {
              $query1= "
-                SELECT  programa.descripcion programa, archivoprograma.fecha fecha, estado.descripcion estado, archivoprograma.archivo, archivoprograma.archivoprograma_id,
+                SELECT  programa.descripcion programa, archivoprograma.fecha fecha, estado.descripcion estado, historial.archivo, archivoprograma.archivoprograma_id,
                         historial.usuario_id, comentario 
  
                 FROM historial 
