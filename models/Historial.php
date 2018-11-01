@@ -4,6 +4,9 @@ namespace app\models;
 
 use Yii;
 use app\commands\RegisterModeChecker;
+use yii\data\ActiveDataProvider;
+use yii\db\Query;
+use yii\data\SqlDataProvider;
 
 /*
 
@@ -52,6 +55,30 @@ class Historial extends \yii\db\ActiveRecord
             'cometario' => 'Comentario',
         ];
     }
+    
+    
+   public function searchPorProgramaId($programaId)
+   {
+             $query1= "
+                SELECT  programa.descripcion programa, archivoprograma.fecha fecha, estado.descripcion estado, archivoprograma.archivo, archivoprograma.archivoprograma_id,
+                        historial.usuario_id, comentario 
+ 
+                FROM historial 
+                    inner join programa on historial.programa_id = programa.programa_id
+                    inner join planmateria on programa.planmateria_id = planmateria.planmateria_id
+                    inner join archivoprograma on programa.programa_id = archivoprograma.programa_id
+                    inner join estado on archivoprograma.estado_id = estado.estado_id
+                    
+                WHERE 
+                    historial.programa_id  = :programaId";
 
+                $dataProvider = new SqlDataProvider([
+                    'sql' => $query1,
+                    'params' => [':programaId' => $programaId],
+               ]);
+                
+                return $dataProvider;
+        
+   }
     
 }

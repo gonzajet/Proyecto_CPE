@@ -18,7 +18,7 @@ use app\commands\RoleAccessChecker;
 use app\commands\RegisterModeChecker;
 use app\commands\Log;
 use app\commands\Stadistics;
-use \app\models\Historial;
+use app\models\Historial;
 /**
  * DocumentUploadController implements the CRUD actions for DocumentUpload model.
  */
@@ -86,6 +86,14 @@ class DocumentUploadController extends Controller
         $dataProvider = $searchModel->searchPorIdArchivoPrograma($id);
 		return $this->render('historial_estados', [
             'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+    
+    public function actionHistorial2($programaId){
+        $searchModel = new Historial();
+        $dataProvider = $searchModel->searchPorProgramaId($programaId);
+		return $this->render('historial', [
             'dataProvider' => $dataProvider,
         ]);
     }

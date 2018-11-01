@@ -37,7 +37,7 @@ class MateriaProgramaSearch extends  Model
             
         $instituto = Yii::$app->user->identity->getID();
         $query1 = "
-                SELECT  planestudio.plan , materia.nombre , ano.ano as anoidmateria , archivoprograma.fecha , estado.descripcion   , archivoprograma.archivo , archivoprograma.archivoprograma_id
+                SELECT  planestudio.plan , materia.nombre , ano.ano as anoidmateria , archivoprograma.fecha , estado.descripcion   , archivoprograma.archivo , archivoprograma.archivoprograma_id, programa.programa_id
 
                 FROM instituto 
                     inner join carrera on instituto.instituto_id = carrera.instituto_id 

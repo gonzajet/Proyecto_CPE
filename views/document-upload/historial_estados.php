@@ -7,7 +7,7 @@ use app\models\Moderw;
 /* @var $searchModel app\models\DocumentUploadSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Historial de estados ';
+$this->title = 'Programa';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="document-upload-index">
@@ -44,7 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 return Moderw::find()->where(['moderw_id'=>$model->moderw_id])->one()->moderw;
               }
             ],
-            ['class' => 'yii\grid\ActionColumn', 'template' => ''],
+            ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
 </div>

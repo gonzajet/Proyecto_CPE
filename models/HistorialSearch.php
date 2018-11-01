@@ -14,7 +14,7 @@ class HistorialSearch extends Historial
     public function rules()
     {
         return [
-            [['historial_id', 'usuario_id', 'archivoprograma_id'], 'integer'],
+            [['historial_id', 'usuario_id', 'programa_id','archivoprograma_id'], 'integer'],
             [['archivo','comentario'], 'safe'],
         ];
     }
@@ -37,7 +37,7 @@ class HistorialSearch extends Historial
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'archivoprograma_id' => $this->archivoprograma_id,
+            'programa_id' => $this->archivoprograma_id,
         ]);
 
         return $dataProvider;

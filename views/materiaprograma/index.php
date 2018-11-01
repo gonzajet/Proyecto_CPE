@@ -227,18 +227,24 @@ $this->title = 'Reporte CPE';
         'columns' => [
            ['class' => 'yii\grid\SerialColumn'],
             'anoidmateria',
-            'nombre',
+            [
+                'attribute' => 'nombre',
+                'value' => function ($model) {
+                return Html::a($model["nombre"],['document-upload/historial2', 'programaId' => $model["programa_id"]]);
+                },
+                'format' => 'raw',
+            ],
             'fecha',
             'descripcion',
             [
-            'header' => 'Historial',
+            'header' => '',
             'class' => 'yii\grid\ActionColumn',
             'template' => ' {myButton}',  // the default buttons + your custom button
             'buttons' => [
                 'myButton' => function($url, $model, $key ) {     // render your custom button
 
 
-                    return Html::a('<i class="glyphicon glyphicon-search"></i>', ['document-upload/historial', 'id' => $model["archivoprograma_id"]], ['class'=>'']) ;
+                    return Html::a('<i class="glyphicon glyphicon-pencil"></i>', ['document-upload/historial', 'id' => $model["archivoprograma_id"]], ['class'=>'']) ;
 
                     // Url::toRoute(['document-upload/update', 'id' => $model["archivoprograma_id"]]);
                     // return Html::a(
