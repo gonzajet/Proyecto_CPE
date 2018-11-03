@@ -233,7 +233,8 @@ $this->title = 'Reporte CPE';
                     return Html::a($model["nombre"],(($model["programa"] == true) ? ['document-upload/historial2', 'planmateriaId' => $model["planmateria_id"]] :('#')));
                 },
                 'format' => 'raw'
-            ],
+            ],      
+            'estado',        
             [
             'header' => '',
             'class' => 'yii\grid\ActionColumn',
