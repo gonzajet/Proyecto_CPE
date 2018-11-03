@@ -194,13 +194,13 @@ $this->title = 'Reporte CPE';
     
     <?= $form->field($model, "instituto")
               ->dropDownList(
-               ArrayHelper::map($subModel->getAllInstitutos(), 'instituto_id', 'nombre'), ['class'=>'form-control instituto','prompt'=>'Please Select', 'required'=>true])
+               ArrayHelper::map($subModel->getAllInstitutos(), 'instituto_id', 'nombre'), ['class'=>'form-control instituto','prompt'=>'Please Select','disabled' => (($esInstituto == true) ? true: false), 'required'=>true])
     ?>
     
     
     <?= $form->field($model, "carrera")
               ->dropDownList(
-               ArrayHelper::map($carreras, 'carrera_id', 'descripcion'), ['class'=>'form-control carrera','prompt'=>'Please Select','required'=>true])
+               ArrayHelper::map($carreras, 'carrera_id', 'descripcion'), ['class'=>'form-control carrera','prompt'=>'Please Select','disabled' => (($esInstituto == true) ? true: false),'required'=>true])
     ?>
     
      <?= $form->field($model, "planestudio")

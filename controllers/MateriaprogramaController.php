@@ -22,6 +22,7 @@ use app\models\Ano;
 use app\models\MateriaProgramaSearch;
 use yii\web\Response;
 use yii\helpers\VarDumper;
+use app\models\Usuariocarrera;
 
 
 class MateriaprogramaController extends Controller
@@ -37,7 +38,18 @@ class MateriaprogramaController extends Controller
             $planestudios = Planestudio::getAllPlanestudio();
             $cicloslectivos = Ano::getAllAnos();
             
-            return $this->render('index', ['model' => $model, 'subModel' => $subModel,'carreras' => $carreras,'planestudios' => $planestudios,'cicloslectivos' => $cicloslectivos,'dataProvider' => $dataProvider ]);
+            $esInstituto = RoleAccessChecker::actionIsAsignSector('rolinstituto');
+            if ($esInstituto)
+            {
+                $usuario = Yii::$app->user->identity->usuario_id;
+                $carreraId = Usuariocarrera::findOne(['usuario_id' => $usuario])->carrera_id; 
+                $institutoId = Carrera::findOne(['carrera_id' => $carreraId])->instituto_id;
+                $planestudios = Planestudio::findAll(['carrera_id' => $carreraId]);
+                $model->instituto = $institutoId;
+                $model->carrera = $carreraId;
+            }
+            
+            return $this->render('index', ['model' => $model, 'esInstituto' => $esInstituto,'subModel' => $subModel,'carreras' => $carreras,'planestudios' => $planestudios,'cicloslectivos' => $cicloslectivos,'dataProvider' => $dataProvider ]);
  	}
         catch (\yii\db\Exception $e) 
         {
@@ -148,13 +160,14 @@ class MateriaprogramaController extends Controller
             $model->ciclolectivo = $ciclolectivo; 
            
             $searchModel = new MateriaProgramaSearch();
-          
+            $esInstituto = RoleAccessChecker::actionIsAsignSector('rolinstituto');
+            
             $dataProvider = $searchModel->buscarProgramas(intval($instituto),intval($carrera),intval($planestudio),intval($ciclolectivo));
             $subModel = new Instituto();
             $carreras = Carrera::getAllCarreras();
             $planestudios = Planestudio::getAllPlanestudio();
             $cicloslectivos = Ano::getAllAnos();
-            return $this->render('index', ['model' => $model, 'subModel' => $subModel,'carreras' => $carreras,'planestudios' => $planestudios,'cicloslectivos' => $cicloslectivos, 'dataProvider' => $dataProvider ]);
+            return $this->render('index', ['model' => $model,'esInstituto' => $esInstituto, 'subModel' => $subModel,'carreras' => $carreras,'planestudios' => $planestudios,'cicloslectivos' => $cicloslectivos, 'dataProvider' => $dataProvider ]);
         }
         catch (\yii\db\Exception $e) 
         {
