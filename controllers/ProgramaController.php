@@ -12,6 +12,8 @@ use yii\filters\VerbFilter;
 use app\commands\RoleAccessChecker;
 use app\controllers\ErrorController;
 use app\models\Ano;
+use app\models\Planmateria;
+
 
 /**
  * ProgramaController implements the CRUD actions for Programa model.
@@ -90,15 +92,19 @@ class ProgramaController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate(){
+    public function actionCreate($planmateriaId){
 		$msg='';
 			try{
 				$model = new Programa();
 				$subModel = new Ano();
-
+                                
 				if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                                        $plan = Planmateria::findOne($model->planmateria_id);  
+                                        $plan->programa = true;
+                                        $plan->save();
 					return $this->redirect(['index', 'id' => $model->programa_id]);
 				} else {
+                                        $model->planmateria_id = $planmateriaId;
 					return $this->render('create', [
 						'model' => $model,
 			  'subModel' => $subModel,

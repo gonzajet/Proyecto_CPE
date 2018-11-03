@@ -10,6 +10,7 @@ use Yii;
  * @property integer $planmateria_id
  * @property integer $planestudio_id
  * @property integer $materia_id
+ * @property boolean $programa
  *
  * @property Materia $materia
  * @property Planestudio $planestudio

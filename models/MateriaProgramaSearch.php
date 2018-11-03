@@ -37,8 +37,10 @@ class MateriaProgramaSearch extends  Model
             
         $instituto = Yii::$app->user->identity->getID();
         $query1 = "
-                SELECT  planestudio.plan , materia.nombre , ano.ano as anoidmateria , archivoprograma.fecha , estado.descripcion   , archivoprograma.archivo , archivoprograma.archivoprograma_id, programa.programa_id
-
+                SELECT  planestudio.plan , materia.nombre , ano.ano as anoidmateria , archivoprograma.fecha , estado.descripcion,
+                        archivoprograma.archivo , archivoprograma.archivoprograma_id, programa.programa_id, planmateria.planmateria_id,
+                        planmateria.programa
+                        
                 FROM instituto 
                     inner join carrera on instituto.instituto_id = carrera.instituto_id 
                     inner join planestudio on carrera.carrera_id = planestudio.carrera_id
@@ -50,8 +52,8 @@ class MateriaProgramaSearch extends  Model
                     inner join estado on archivoprograma.estado_id = estado.estado_id";
     }else{
          $query1 = "
-                SELECT  planestudio.plan , materia.nombre , archivoprograma.fecha , estado.descripcion 
- 
+                SELECT  planestudio.plan , materia.nombre , archivoprograma.fecha , estado.descripcion, planmateria.planmateria_id, 
+                        planmateria.programa
                 FROM instituto inner join carrera on instituto.instituto_id = carrera.instituto_id 
                     inner join planestudio on carrera.carrera_id = planestudio.carrera_id
                     inner join ano on planestudio.ano_id = ano.ano_id
@@ -73,50 +75,7 @@ class MateriaProgramaSearch extends  Model
     public function buscarProgramas($institutoId,$carreraId,$planestudioId,$ciclolectivoId)
     {
         
-    
-        // if ($carreraId == NULL && $ciclolectivoId == NULL) {
-        //     $query1= "
-        //     SELECT  planestudio.plan , materia.nombre , archivoprograma.fecha , estado.descripcion 
-
-        //     FROM instituto 
-        //         inner join carrera on instituto.instituto_id = carrera.instituto_id 
-        //         inner join planestudio on carrera.carrera_id = planestudio.carrera_id
-        //         inner join ano on planestudio.ano_id = ano.ano_id
-        //         inner join planmateria on planestudio.planestudio_id = planmateria.planestudio_id
-        //         inner join programa on planmateria.planmateria_id = programa.planmateria_id
-        //         inner join materia on planmateria.materia_id = materia.materia_id
-        //         inner join archivoprograma on programa.programa_id = archivoprograma.programa_id
-        //         inner join estado on archivoprograma.estado_id = estado.estado_id
-        //     WHERE 
-        //         planestudio.planestudio_id  = :planestudioId";
-
-        //     $dataProvider = new SqlDataProvider([
-        //         'sql' => $query1,
-        //         'params' => [':planestudioId' => $planestudioId],
-        //     ]);   
-        // }
-        // elseif ($carreraId == NULL && $ciclolectivoId != NULL) {
-        //        $query1= "
-        //         SELECT  planestudio.plan , materia.nombre , archivoprograma.fecha , estado.descripcion 
- 
-        //         FROM instituto 
-        //             inner join carrera on instituto.instituto_id = carrera.instituto_id 
-        //             inner join planestudio on carrera.carrera_id = planestudio.carrera_id
-        //             inner join ano on planestudio.ano_id = ano.ano_id
-        //             inner join planmateria on planestudio.planestudio_id = planmateria.planestudio_id
-        //             inner join programa on planmateria.planmateria_id = programa.planmateria_id
-        //             inner join materia on planmateria.materia_id = materia.materia_id
-        //             inner join archivoprograma on programa.programa_id = archivoprograma.programa_id
-        //             inner join estado on archivoprograma.estado_id = estado.estado_id
-        //         WHERE 
-        //             planestudio.planestudio_id  = :planestudioId AND
-        //             ano.ano_id = :ciclolectivoId";
-
-        //         $dataProvider = new SqlDataProvider([
-        //             'sql' => $query1,
-        //             'params' => [':planestudioId' => $planestudioId, ':ciclolectivoId' => $ciclolectivoId],
-        //             ]);
-        // }
+        /*
         if ($carreraId != NULL && $ciclolectivoId == NULL) {
              $query1= "
                 SELECT  planestudio.plan , materia.nombre , ano.ano as anoidmateria ,  archivoprograma.fecha , estado.descripcion  , archivoprograma.archivo , archivoprograma.archivoprograma_id
@@ -141,11 +100,6 @@ class MateriaProgramaSearch extends  Model
         }
         else{
 
-
-        
-
-        
-
         $query1= "
             SELECT  planestudio.plan , materia.nombre , ano.ano as anoidmateria , archivoprograma.fecha , estado.descripcion   , archivoprograma.archivo , archivoprograma.archivoprograma_id
 
@@ -162,11 +116,27 @@ class MateriaProgramaSearch extends  Model
                 planestudio.planestudio_id  = :planestudioId AND
                 carrera.carrera_id = :carreraId AND
                 ano.ano_id = :ciclolectivoId";
-        };
+        };*/
+        
+          $query1= "
+            SELECT  planestudio.plan , materia.nombre , ano.ano as anoidmateria, planmateria.planmateria_id, planmateria.programa  
+
+            FROM instituto 
+                inner join carrera on instituto.instituto_id = carrera.instituto_id 
+                inner join planestudio on carrera.carrera_id = planestudio.carrera_id
+                inner join ano on planestudio.ano_id = ano.ano_id
+                inner join planmateria on planestudio.planestudio_id = planmateria.planestudio_id
+                inner join materia on planmateria.materia_id = materia.materia_id
+            WHERE
+                instituto.instituto_id = :institutoId AND
+                planestudio.planestudio_id  = :planestudioId AND
+                carrera.carrera_id = :carreraId AND
+                ano.ano_id = :ciclolectivoId";
+        
 
             $dataProvider = new SqlDataProvider([
                 'sql' => $query1,
-                'params' => [':planestudioId' => $planestudioId, ':carreraId' => $carreraId, ':ciclolectivoId' => $ciclolectivoId],
+                'params' => [':institutoId' => $institutoId ,':planestudioId' => $planestudioId, ':carreraId' => $carreraId, ':ciclolectivoId' => $ciclolectivoId],
                 ]);
         
         return $dataProvider;

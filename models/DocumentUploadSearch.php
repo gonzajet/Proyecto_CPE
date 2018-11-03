@@ -6,6 +6,7 @@ use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\DocumentUpload;
+use app\models\Programa;
 use app\commands\RegisterModeChecker;
 
 /**
@@ -74,9 +75,11 @@ class DocumentUploadSearch extends DocumentUpload
         return $dataProvider;
     }
 	
-	public function searchPorIdArchivoPrograma($idarchivoprograma)
+    public function searchPorIdArchivoPrograma($plamateria_id)
     {
-		$auxIdPrograma = DocumentUpload::findOne($idarchivoprograma)->programa_id;
+        
+        $auxIdPrograma = Programa::find()->where(['planmateria_id' => $plamateria_id])->one()->programa_id;
+        //$auxIdPrograma = Programa::findOne($idarchivoprograma)->programa_id;
         $query = DocumentUpload::find();
 
         // add conditions that should always apply here

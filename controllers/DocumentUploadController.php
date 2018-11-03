@@ -94,9 +94,9 @@ class DocumentUploadController extends Controller
         ]);
     }
     
-    public function actionHistorial2($programaId){
+    public function actionHistorial2($planmateriaId){
         $searchModel = new Historial();
-        $dataProvider = $searchModel->searchPorProgramaId($programaId);
+        $dataProvider = $searchModel->searchPorProgramaId($planmateriaId);
 		return $this->render('historial', [
             'dataProvider' => $dataProvider,
         ]);

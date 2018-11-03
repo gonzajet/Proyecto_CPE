@@ -7,6 +7,8 @@ use app\commands\RegisterModeChecker;
 use yii\data\ActiveDataProvider;
 use yii\db\Query;
 use yii\data\SqlDataProvider;
+use app\models\Programa;
+
 
 /*
 
@@ -65,8 +67,10 @@ class Historial extends \yii\db\ActiveRecord
       } else return false;
    }    
     
-   public function searchPorProgramaId($programaId)
+   public function searchPorProgramaId($planmateriaId)
    {
+            $programaId = Programa::find()->where(['planmateria_id' => $planmateriaId])->one()->programa_id;
+            
              $query1= "
                 SELECT  programa.descripcion programa, archivoprograma.fecha fecha, estado.descripcion estado, historial.archivo, archivoprograma.archivoprograma_id,
                         historial.usuario_id, comentario 

@@ -230,12 +230,10 @@ $this->title = 'Reporte CPE';
             [
                 'attribute' => 'nombre',
                 'value' => function ($model) {
-                return Html::a($model["nombre"],['document-upload/historial2', 'programaId' => $model["programa_id"]]);
+                    return Html::a($model["nombre"],(($model["programa"] == true) ? ['document-upload/historial2', 'planmateriaId' => $model["planmateria_id"]] :('#')));
                 },
-                'format' => 'raw',
+                'format' => 'raw'
             ],
-            'fecha',
-            'descripcion',
             [
             'header' => '',
             'class' => 'yii\grid\ActionColumn',
@@ -243,29 +241,13 @@ $this->title = 'Reporte CPE';
             'buttons' => [
                 'myButton' => function($url, $model, $key ) {     // render your custom button
 
-
-                    return Html::a('<i class="glyphicon glyphicon-pencil"></i>', ['document-upload/historial', 'id' => $model["archivoprograma_id"]], ['class'=>'']) ;
-
-                    // Url::toRoute(['document-upload/update', 'id' => $model["archivoprograma_id"]]);
-                    // return Html::a(
-
-                    //         '<i class="glyphicon glyphicon-download-alt">'.$model["archivoprograma_id"].'</i>',
-
-                    //         Url::to(['document-upload/update']),
-
-                    //         [
-
-                    //             'id'=>$model["archivoprograma_id"],
-
-                    //             'data-pjax'=>true,
-
-                    //             'action'=>Url::toRoute(['document-upload/update', 'id' => $model["archivoprograma_id"]]),
-
-                    //             'class'=>'button btn btn-default',
-
-                    //         ]
-
-                    //     );
+                    if ($model["programa"]){
+                        return Html::a('<i class="glyphicon glyphicon-pencil"></i>', ['document-upload/historial', 'id' => $model["planmateria_id"]], ['class'=>'']) ;
+                    }
+                    else
+                    {
+                        return Html::a('<i class="glyphicon glyphicon-plus"></i>', ['programa/create', 'planmateriaId' => $model["planmateria_id"]], ['class'=>'']) ;
+                    }
                 }
             ]
         ],

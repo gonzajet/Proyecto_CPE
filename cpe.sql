@@ -57,7 +57,8 @@
 	CREATE TABLE public.planmateria (
 	       planmateria_id    SERIAL PRIMARY KEY,
 	       planestudio_id  integer REFERENCES planestudio,
-	       materia_id  integer REFERENCES materia
+	       materia_id  integer REFERENCES materia,
+		   programa      boolean DEFAULT false
 	);
 
 	CREATE TABLE public.programa (

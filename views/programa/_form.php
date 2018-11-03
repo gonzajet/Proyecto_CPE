@@ -13,7 +13,7 @@ use yii\helpers\ArrayHelper;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'planmateria_id')->textInput() ?>
+    <?= $form->field($model, 'planmateria_id')->textInput(['readonly'=> true]) ?>
 
     <?= $form->field($model, 'ano_id')->dropDownList(ArrayHelper::map($subModel->find()->asArray()->select('ano_id, ano')->orderBy('ano')->all(), 'ano_id','ano')) ?>
 
