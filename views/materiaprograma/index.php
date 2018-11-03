@@ -200,17 +200,17 @@ $this->title = 'Reporte CPE';
     
     <?= $form->field($model, "carrera")
               ->dropDownList(
-               ArrayHelper::map([], 'carrera_id', 'descripcion'), ['class'=>'form-control carrera','prompt'=>'Please Select','required'=>true])
+               ArrayHelper::map($carreras, 'carrera_id', 'descripcion'), ['class'=>'form-control carrera','prompt'=>'Please Select','required'=>true])
     ?>
     
      <?= $form->field($model, "planestudio")
               ->dropDownList(
-               ArrayHelper::map([], 'planestudio_id', 'descripcion'), ['class'=>'form-control planestudio','prompt'=>'Please Select','required'=>true])
+               ArrayHelper::map($planestudios, 'planestudio_id', 'plan'), ['class'=>'form-control planestudio','prompt'=>'Please Select','required'=>true])
     ?>
     
     <?= $form->field($model, "ciclolectivo")
               ->dropDownList(
-               ArrayHelper::map([], 'ano_id', 'descripcion'), ['class'=>'form-control ciclolectivo','prompt'=>'Please Select','required'=>true])
+               ArrayHelper::map($cicloslectivos, 'ano_id', 'ano'), ['class'=>'form-control ciclolectivo','prompt'=>'Please Select','required'=>true])
     ?>
 
 
@@ -233,8 +233,19 @@ $this->title = 'Reporte CPE';
                     return Html::a($model["nombre"],(($model["programa"] == true) ? ['document-upload/historial2', 'planmateriaId' => $model["planmateria_id"]] :('#')));
                 },
                 'format' => 'raw'
-            ],      
-            'estado',        
+            ],
+            [
+                'attribute' => 'estado',
+                'value' => function($model)
+                {
+                    if (isset($model["estado"])){
+                        return $model["estado"];
+                    } else {
+                        return 'No Entregado';
+                    }
+                }
+                
+            ],        
             [
             'header' => '',
             'class' => 'yii\grid\ActionColumn',

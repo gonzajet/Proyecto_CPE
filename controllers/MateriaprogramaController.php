@@ -33,8 +33,11 @@ class MateriaprogramaController extends Controller
             $searchModel = new MateriaProgramaSearch();
             $dataProvider = $searchModel->search();
             $subModel = new Instituto();
+            $carreras = Carrera::getAllCarreras();
+            $planestudios = Planestudio::getAllPlanestudio();
+            $cicloslectivos = Ano::getAllAnos();
             
-            return $this->render('index', ['model' => $model, 'subModel' => $subModel,'dataProvider' => $dataProvider ]);
+            return $this->render('index', ['model' => $model, 'subModel' => $subModel,'carreras' => $carreras,'planestudios' => $planestudios,'cicloslectivos' => $cicloslectivos,'dataProvider' => $dataProvider ]);
  	}
         catch (\yii\db\Exception $e) 
         {
@@ -139,12 +142,19 @@ class MateriaprogramaController extends Controller
         try
         {
             $model = new MateriaPrograma();
+            $model->instituto = $instituto;
+            $model->carrera = $carrera;
+            $model->planestudio = $planestudio;
+            $model->ciclolectivo = $ciclolectivo; 
+           
             $searchModel = new MateriaProgramaSearch();
           
             $dataProvider = $searchModel->buscarProgramas(intval($instituto),intval($carrera),intval($planestudio),intval($ciclolectivo));
             $subModel = new Instituto();
-            
-            return $this->render('index', ['model' => $model, 'subModel' => $subModel,'dataProvider' => $dataProvider ]);
+            $carreras = Carrera::getAllCarreras();
+            $planestudios = Planestudio::getAllPlanestudio();
+            $cicloslectivos = Ano::getAllAnos();
+            return $this->render('index', ['model' => $model, 'subModel' => $subModel,'carreras' => $carreras,'planestudios' => $planestudios,'cicloslectivos' => $cicloslectivos, 'dataProvider' => $dataProvider ]);
         }
         catch (\yii\db\Exception $e) 
         {
