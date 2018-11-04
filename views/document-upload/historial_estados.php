@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use app\models\Moderw;
+use app\commands\RoleAccessChecker;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\DocumentUploadSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -44,7 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 return Moderw::find()->where(['moderw_id'=>$model->moderw_id])->one()->moderw;
               }
             ],
-            ['class' => 'yii\grid\ActionColumn'],
+            ((RoleAccessChecker::actionIsAsignSector('rolprensa') == true) ? ['class' => 'yii\grid\ActionColumn' , 'template' => ''] :['class' => 'yii\grid\ActionColumn']),
         ],
     ]); ?>
 </div>
