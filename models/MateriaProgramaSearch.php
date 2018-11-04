@@ -23,6 +23,8 @@ use app\commands\RoleAccessChecker;
 class MateriaProgramaSearch extends  Model
 {
     
+    
+    
     /**
      * Creates data provider instance with search query applied
      *
@@ -40,7 +42,7 @@ class MateriaProgramaSearch extends  Model
             if (RoleAccessChecker::actionIsAsignSector('roladmin'))
             {
                    $query1= "
-                    SELECT  planestudio.plan , materia.nombre , ano.ano as anoidmateria, planmateria.planmateria_id, planmateria.programa, estado.descripcion estado  
+                    SELECT  planestudio.plan , materia.nombre , ano.ano as planaño, planmateria.planmateria_id, planmateria.programa, estado.descripcion estado  
 
                     FROM instituto 
                         inner join carrera on instituto.instituto_id = carrera.instituto_id 
@@ -63,7 +65,7 @@ class MateriaProgramaSearch extends  Model
                 $institutoId = Carrera::findOne(['carrera_id' => $carreraId])->instituto_id;
                 
                   $query1= "
-                        SELECT  planestudio.plan , materia.nombre , ano.ano as anoidmateria, planmateria.planmateria_id, planmateria.programa, estado.descripcion estado  
+                        SELECT  planestudio.plan , materia.nombre , ano.ano as planaño, planmateria.planmateria_id, planmateria.programa, estado.descripcion estado  
 
                         FROM instituto 
                             inner join carrera on instituto.instituto_id = carrera.instituto_id 
@@ -87,7 +89,7 @@ class MateriaProgramaSearch extends  Model
             if (RoleAccessChecker::actionIsAsignSector('rolprensa'))
             {
                 $query1= "
-                    SELECT  planestudio.plan , materia.nombre , ano.ano as anoidmateria, planmateria.planmateria_id, planmateria.programa, estado.descripcion estado  
+                    SELECT  planestudio.plan , materia.nombre , ano.ano as planaño, planmateria.planmateria_id, planmateria.programa, estado.descripcion estado  
 
                     FROM instituto 
                         inner join carrera on instituto.instituto_id = carrera.instituto_id 
@@ -122,7 +124,7 @@ class MateriaProgramaSearch extends  Model
         if ($tieneRol)
         {
           $query1= "
-            SELECT  planestudio.plan , materia.nombre , ano.ano as anoidmateria, planmateria.planmateria_id, planmateria.programa, estado.descripcion estado  
+            SELECT  planestudio.plan , materia.nombre , ano.ano as planaño, planmateria.planmateria_id, planmateria.programa, estado.descripcion estado  
 
             FROM instituto 
                 inner join carrera on instituto.instituto_id = carrera.instituto_id 
@@ -148,7 +150,7 @@ class MateriaProgramaSearch extends  Model
         else
         {
           $query1= "
-            SELECT  planestudio.plan , materia.nombre , ano.ano as anoidmateria, planmateria.planmateria_id, planmateria.programa, estado.descripcion estado  
+            SELECT  planestudio.plan , materia.nombre , ano.ano as planaño, planmateria.planmateria_id, planmateria.programa, estado.descripcion estado  
 
             FROM instituto 
                 inner join carrera on instituto.instituto_id = carrera.instituto_id 

@@ -226,7 +226,7 @@ $this->title = 'Reporte CPE';
         'showOnEmpty'=>true,
         'columns' => [
            ['class' => 'yii\grid\SerialColumn'],
-            'anoidmateria',
+            'planaño',
             [
                 'attribute' => 'nombre',
                 'value' => function ($model) {
