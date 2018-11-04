@@ -33,40 +33,82 @@ class MateriaProgramaSearch extends  Model
     public function search()
     {
 
+        $query1 ='';
+        $dataProvider='';
+        if (Yii::$app->user->identity != null)
+        {
+            if (RoleAccessChecker::actionIsAsignSector('roladmin'))
+            {
+                   $query1= "
+                    SELECT  planestudio.plan , materia.nombre , ano.ano as anoidmateria, planmateria.planmateria_id, planmateria.programa, estado.descripcion estado  
 
-    if (Yii::$app->user->identity != null){
-            
-        $instituto = Yii::$app->user->identity->getID();
-        $query1 = "
-                SELECT  planestudio.plan , materia.nombre , ano.ano as anoidmateria , archivoprograma.fecha , estado.descripcion estado,
-                        archivoprograma.archivo , archivoprograma.archivoprograma_id, programa.programa_id, planmateria.planmateria_id,
-                        planmateria.programa
-                        
-                FROM instituto 
-                    inner join carrera on instituto.instituto_id = carrera.instituto_id 
-                    inner join planestudio on carrera.carrera_id = planestudio.carrera_id
-                    inner join ano on planestudio.ano_id = ano.ano_id
-                    inner join planmateria on planestudio.planestudio_id = planmateria.planestudio_id
-                    inner join programa on planmateria.planmateria_id = programa.planmateria_id
-                    inner join materia on planmateria.materia_id = materia.materia_id
-                    inner join archivoprograma on programa.programa_id = archivoprograma.programa_id
-                    inner join estado on archivoprograma.estado_id = estado.estado_id";
-    }else{
-         $query1 = "
-                SELECT  planestudio.plan , materia.nombre , archivoprograma.fecha , estado.descripcion estado, planmateria.planmateria_id, 
-                        planmateria.programa
-                FROM instituto inner join carrera on instituto.instituto_id = carrera.instituto_id 
-                    inner join planestudio on carrera.carrera_id = planestudio.carrera_id
-                    inner join ano on planestudio.ano_id = ano.ano_id
-                    inner join planmateria on planestudio.planestudio_id = planmateria.planestudio_id
-                    inner join programa on planmateria.planmateria_id = programa.planmateria_id
-                    inner join materia on planmateria.materia_id = materia.materia_id
-                    inner join archivoprograma on programa.programa_id = archivoprograma.programa_id
-                    inner join estado on archivoprograma.estado_id = estado.estado_id";
-    }
-        $dataProvider = new SqlDataProvider([
-            'sql' => $query1,
-            ]);
+                    FROM instituto 
+                        inner join carrera on instituto.instituto_id = carrera.instituto_id 
+                        inner join planestudio on carrera.carrera_id = planestudio.carrera_id
+                        inner join ano on planestudio.ano_id = ano.ano_id
+                        inner join planmateria on planestudio.planestudio_id = planmateria.planestudio_id
+                        inner join materia on planmateria.materia_id = materia.materia_id
+                        left join programa on planmateria.planmateria_id = programa.planmateria_id
+                        left join archivoprograma on programa.programa_id = archivoprograma.programa_id
+                        left join estado on archivoprograma.estado_id = estado.estado_id";
+                   
+                  $dataProvider = new SqlDataProvider([
+                    'sql' => $query1,
+                  ]);
+            }
+            if (RoleAccessChecker::actionIsAsignSector('rolinstituto'))
+            {
+                $usuario = Yii::$app->user->identity->usuario_id;
+                $carreraId = Usuariocarrera::findOne(['usuario_id' => $usuario])->carrera_id; 
+                $institutoId = Carrera::findOne(['carrera_id' => $carreraId])->instituto_id;
+                
+                  $query1= "
+                        SELECT  planestudio.plan , materia.nombre , ano.ano as anoidmateria, planmateria.planmateria_id, planmateria.programa, estado.descripcion estado  
+
+                        FROM instituto 
+                            inner join carrera on instituto.instituto_id = carrera.instituto_id 
+                            inner join planestudio on carrera.carrera_id = planestudio.carrera_id
+                            inner join ano on planestudio.ano_id = ano.ano_id
+                            inner join planmateria on planestudio.planestudio_id = planmateria.planestudio_id
+                            inner join materia on planmateria.materia_id = materia.materia_id
+                            left join programa on planmateria.planmateria_id = programa.planmateria_id
+                            left join archivoprograma on programa.programa_id = archivoprograma.programa_id
+                            left join estado on archivoprograma.estado_id = estado.estado_id
+                        WHERE
+                            instituto.instituto_id = :institutoId AND
+                            carrera.carrera_id = :carreraId";
+                  
+                  $dataProvider = new SqlDataProvider([
+                        'sql' => $query1,
+                        'params' => [':institutoId' => $institutoId ,':carreraId' => $carreraId],
+                        ]);
+        
+            }
+            if (RoleAccessChecker::actionIsAsignSector('rolprensa'))
+            {
+                $query1= "
+                    SELECT  planestudio.plan , materia.nombre , ano.ano as anoidmateria, planmateria.planmateria_id, planmateria.programa, estado.descripcion estado  
+
+                    FROM instituto 
+                        inner join carrera on instituto.instituto_id = carrera.instituto_id 
+                        inner join planestudio on carrera.carrera_id = planestudio.carrera_id
+                        inner join ano on planestudio.ano_id = ano.ano_id
+                        inner join planmateria on planestudio.planestudio_id = planmateria.planestudio_id
+                        inner join materia on planmateria.materia_id = materia.materia_id
+                        left join programa on planmateria.planmateria_id = programa.planmateria_id
+                        left join archivoprograma on programa.programa_id = archivoprograma.programa_id
+                        left join estado on archivoprograma.estado_id = estado.estado_id
+                    WHERE
+                        estado.estado_id is not null AND estado.estado_id = 4 
+                        ";
+                
+                   $dataProvider = new SqlDataProvider([
+                    'sql' => $query1,
+                  ]);
+            }
+        }
+
+       
         
    
         return $dataProvider;
