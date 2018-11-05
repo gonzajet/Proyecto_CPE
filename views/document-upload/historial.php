@@ -32,13 +32,28 @@ $this->params['breadcrumbs'][] = $this->title;
              ],
             'estado',
             'comentario',
-            'archivo',
+             [
+                'attribute' => 'archivo',
+                'value' => function($data)
+                {
+                    if (isset($data["archivo"])){
+                        return $data["archivo"];
+                    } else {
+                        return '';
+                    }
+                }
+                
+            ],
             'fecha',
             [
                     'label' => 'Enlaces',
                     'format' => 'raw',
                     'value' => function ($data) {
-                            return Html::a('Descargar', 'uploads/'.$data["archivo"]);
+                            if (isset($data["archivo"]))
+                            {
+                                return Html::a('Descargar', 'uploads/'.$data["archivo"]);
+                            }
+                            else { return '';}
                     },
             ],
 		
